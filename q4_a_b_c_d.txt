@@ -1,0 +1,108 @@
+** Test case : Q4 All parts
+ONLINE question 4 (a)(b),(c) and (d): 
+For (a): Try introducing errors your self as described in the question paper
+For (b): AST creation to be done at implementation level 
+For (c): Not an error at line 72, but errors at lines 74 and 76
+For (d): create a simple test case after removing all errors for code denegration. Use print(G1); print(H1); G1:=H1; print(G1);
+(correct the test case if any syntax error exists)
+
+
+
+
+--------------------------------------------
+
+
+
+<<module f1>>
+takes input[a: array[10..30] of integer, b:array[10..30] of integer, c:real];
+returns [m:boolean, n:integer];
+start
+	declare x,y, p: real;
+	declare k, y1: integer;
+	declare E: array[2..20] of integer;
+	declare Var3, Var4: array[100..150] of boolean;
+	get_value(y);
+	Record #abc			**ONLINE: record type definition- is syntactically correct**
+	start 
+		Field xyz: integer;
+		Field pqr:real;
+		Field Q1: array[-10..90] of integer;
+	end
+	
+	get_value(x);
+	declare A,B: array[4..10] of integer;
+	declare Var1, Var2: array[35..50] of real;
+	get_value(B);
+	declare D,C: array[10..30] of integer;
+	A:=B;
+	declare G1, G2, G3: Record #abc; 	**ONLINE: variables declared of the record type**
+
+	C:=a;
+	D:=C;				 
+	for (k in 15..40)
+	start
+		x:=x+k*y;				    **ERROR: Type mismatch error**
+		declare u, v:real;
+		declare M1: boolean;
+		declare int1: integer;
+		declare M2: array[-10..4]of boolean;
+		u := y+c*34.2;
+		v:= u-c*p-20.5E+2;
+		x:=x + u*v- u<=v;                             **ERROR: Type mismatch error**
+	end
+	x:=c+y;	
+	Record #typ			**ONLINE: record type definition- is syntactically correct**
+	start 
+		Field Q2: integer;
+		Field Q3:real;
+		Field Q1: array[-20..80] of integer;
+	end
+	Record #tq			**ONLINE: record type definition- is syntactically correct**
+	start 
+		Field a2: integer;
+		Field a3:real;
+		Field a1: array[-10..90] of integer;
+		Field a4: integer;
+	end
+	
+	C[18]:= a[18]+ b[18];
+	declare H1, H2, H3: Record #typ; 	**ONLINE: variables declared of the record type**
+	declare K1, K2, K3: Record #tq; 	**ONLINE: variables declared of the record type**
+	A[5]:= B[6]- 10;
+	G1:=H1;                                 **ONLINE: not an error as the record types are structurally similar*
+	x:=y+p;
+	G2:=K3; 				**ONLINE: ERROR as the record types are not structurally similar*
+	y1:= 20*8-5;	
+	G1:=G2+G3;				**ONLINE: ERROR as plus does not support record variables used as arguments**
+end							     ** ONLINE: not an error as the output parameters n is not assigned any value-firs exemption**
+
+
+
+<<<driver program>>>
+start
+	declare v_1_2_3, A:integer;
+	declare u1, u2, k:boolean;
+        A:=12;
+	declare p: real;
+	p:= 23.56;
+	get_value(v_1_2_3);							 		
+	declare B, C: array [2..20] of integer;
+	declare a,b:integer;
+	a:= 5.89e-2;			        **ERROR: type mismatch error**
+	get_value(b);
+	declare value, q, r: real;
+	get_value(q);
+	r:= 23.67e+2;
+	value:= p+q*r-a*value; 			**ERROR: type mismatch error**
+	k:= true AND false OR q;		**ERROR: type mismatch error**
+	u1:= a<=b;
+	declare w: integer;			 
+	w:= 23+B[6];                                  
+	b:= a*25+100*C[1];		        **ERROR:element of array C is out of bound** 
+	declare D: array[20..40] of integer;			 
+	D:= value-q+r;				**ERROR: type mismatch error**
+	w:= w + 5;		 
+	B:= C;
+	C:= D;				        **ERROR: type mismatch error**        
+end
+

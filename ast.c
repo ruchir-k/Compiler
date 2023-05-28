@@ -42,6 +42,7 @@ astNode *initASTNode(astNodeLabel label, astNode *leftChild)
     node->nextSibling = NULL; // need to check;
     node->symTable = NULL;
     node->tk = NULL;
+    node->code = NULL;
     return node;
 }
 
@@ -55,8 +56,11 @@ char *EnumToASTString(astNodeLabel nt)
         buffer[strlen(buffer) - 2] = '\0';
         // printf("%s\n", buffer);
 
-        if (nt == i)
+        if (nt == i){
+            fclose(fp);
             return buffer;
+        }
+            
         i++;
     }
     fclose(fp);
@@ -96,7 +100,7 @@ astNode *constructAST(treenode *root)
 {
     switch (root->rule_No)
     {
-    case 0: // program moduleDeclarations otherModules(2) driverModule otherModules(1)
+    case 0:{ // program moduleDeclarations otherModules(2) driverModule otherModules(1)
         treenode *mds = getNodeWithSymbol(moduleDeclarations, root);
         treenode *oms2 = getNodeWithSymbol(otherModules, root);
         treenode *drimod = getNodeWithSymbol(driverModule, root);
@@ -140,7 +144,7 @@ astNode *constructAST(treenode *root)
         }
 
         freeRHSList(root);
-        return programNode;
+        return programNode;}
     case 1: // moduleDeclarations moduleDeclaration moduleDeclarations(1)
     {
         treenode *md = getNodeWithSymbol(moduleDeclaration, root);

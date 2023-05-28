@@ -1,0 +1,30 @@
+** For Q1 (a-c): This test case is meant only to test your lexical analyzer for Question Q1 all parts - a, b, and c
+   and is not correct syntactically. Use this to verify your lexical analyzer **
+
+var_1_, var_2_, _var_3_:NOT(Record):= printscope integer+AND+declare..-23.7e+Record-Field12*Field um16789+printscope23+printscop**18.043**
+123abc123.23-/*+while)for(begin--12.03e+a2<<<<<===>=value_123___16 
+	FJKHDSFSDjshd547637__4234_3423mdfndf+342543.dfsf+case-case1/
+#abc+#ABC-#pqrstac-#abc123
+/true
+56.e abcdefghijklmnopqrstuvwxyz+56.26e++87.46E-value.=46...45@@
+;default<=1876..2098+12.....::=30 switch 
+23.05e+12..<===<<<<3452(+];!=::=#new-#old128pqr
+	break Feild Field [A..19] get_value,print,printscope*use, boolean NOT 10..in for++array[187.e+12 1.0E-12e34+abcdefghijklmnopqrstuvwx Record -23*187.0e+12 Record1
+Of*while>=_while234-print/parameter..56..23Switch)>>>desrhugrj_k134fd5_1
+q7pqrst7877+w9pqrstuvwxyz679877887:=  q7a7 pq7p+q8123-897 z8qrts999
+
+**ONLINE TEST: 
+Q1 (a) : Lines 4 and 12 have keywords Record, Field, printscope and NOT
+Q1 (b) : Line 14 has valid and invalid lexemes for the pattern of IMPLICITID
+Q1 (c) : Lines 7 and 11 have valid and invalid lexemes for RECORDID
+**
+
+**Try to print these in each line on the console in the following format
+      line no     	lexeme		token name
+	4		 var_1_		  ID
+**
+**print also the lexeme for lexical error **
+
+**add more complex combinations and test your lexical analyzer**
+
+

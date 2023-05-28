@@ -921,7 +921,7 @@ void populateStmtsSymTable(SymTablePointer *module, astNode *stmts, int *offset,
                                 semanticallyCorrect = false;
                             }
                         }
-                        else
+                        else if(idList->label == AST_ID)
                         {
                             astNode *idNode = idList;
                             if (!existsInAnySymTable(module, idNode->tk->str))

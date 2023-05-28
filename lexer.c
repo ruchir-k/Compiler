@@ -205,6 +205,10 @@ void populate_hashtable(hashtable *ht)
     insert(ht, "OR", 2, OR);
     insert(ht, "true", 4, TRUE);
     insert(ht, "false", 5, FALSE);
+    insert(ht, "Record", 6, RECORD);
+    insert(ht, "Field", 5, FIELD);
+    insert(ht, "printscope", 10, PRINTSCOPE);
+    insert(ht, "NOT", 3, NOT);
 }
 
 // void find_token(char *id)
@@ -245,9 +249,14 @@ token *getNextToken(hashtable ht, twinbuffer *tb)
         // check if return syntax is right in all, like what is the second parameter?
         {
         case 0:
-            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
+            if ((c >= 'a' && c <= 'o') || (c >= 'A' && c <= 'Z') || c == '_')
             {
                 s = 1;
+                c = readOneCharacter(tb);
+            }
+            else if(c >= 'p' && c <= 'z')
+            {
+                s = 51;
                 c = readOneCharacter(tb);
             }
             else if (c >= '0' && c <= '9')
@@ -334,6 +343,11 @@ token *getNextToken(hashtable ht, twinbuffer *tb)
             {
                 s = 49;
             }
+            else if(c == '#') 
+            {
+                s = 55;
+                c = readOneCharacter(tb);
+            }
             else if (c == '\r')
             {
                 copyLexeme(tb, getSize(tb));
@@ -352,6 +366,44 @@ token *getNextToken(hashtable ht, twinbuffer *tb)
             else
             {
                 s = 2;
+            }
+            break;
+        case 51:
+            if(c >= '6' && c <= '9') 
+            {
+                s = 52;
+                c = readOneCharacter(tb);
+            }
+            else 
+            {
+                s = 1;
+            }
+            break;
+        case 52:
+            if(c >= 'p' && c <= 'z') 
+            {
+                s = 52;
+                c = readOneCharacter(tb);
+            }
+            else if(c >= '6' && c <= '9')
+            {
+                s = 53;
+                c = readOneCharacter(tb);
+            }
+            else
+            {
+                s = 54;
+            }
+            break;
+        case 53:
+            if(c >= '6' && c <= '9')
+            {
+                s = 53;
+                c = readOneCharacter(tb);
+            }
+            else
+            {
+                s = 54;
             }
             break;
         case 2:
@@ -378,7 +430,37 @@ token *getNextToken(hashtable ht, twinbuffer *tb)
             else
             {
                 // return ID;//note: shouldnt we return the string of this
+                // printf("%s",lexeme1);
+                
                 return make_token(line_num, lexeme1, ID);
+            }
+        case 54:
+            retract(1, tb);
+            int size5 = getSize(tb);
+            if (size5 > 20)
+            {
+
+                char *temp = copyLexeme(tb, size5);
+                printf("Lexical error at line %d, lexeme %s is of length greater than 20\n", line_num, temp);
+                isSyntaticallyCorrect= false;
+                s = 0;
+                c = readOneCharacter(tb);
+                break;
+            }
+            char *lexeme6 = copyLexeme(tb, size5);
+            // printf("lexeme1:%s %d %c\n", lexeme1, size1, c);
+            if (exists(&ht, lexeme6, size5))
+            {
+                token_names tokene = get(&ht, lexeme6, size5);
+                // return token;//note: does this go to the string
+                return make_token(line_num, lexeme6, tokene);
+            }
+            else
+            {
+                // return ID;//note: shouldnt we return the string of this
+                // printf("%s",lexeme1);
+                
+                return make_token(line_num, lexeme6, IMPLICITID);
             }
         case 3:
             if (c >= '0' && c <= '9')
@@ -729,7 +811,43 @@ token *getNextToken(hashtable ht, twinbuffer *tb)
             return make_token(line_num, copyLexeme(tb, getSize(tb)), BO);
         case 49:
             return make_token(line_num, copyLexeme(tb, getSize(tb)), BC);
+        case 55:
+            if(c >= 'a' && c <= 'z') 
+            {
+                s = 56;
+                c = readOneCharacter(tb);
+            }
+            else {
+                retract(1,tb);
+                s = 50;
+            }
+            break;
+        case 56:
+            if(c >= 'a' && c <= 'z') 
+            {
+                s = 56;
+                c = readOneCharacter(tb);
+                // printf("hereeeee in 56");
+            }
+            else {
+                retract(1, tb);
+                int size6 = getSize(tb);
+                if (size6 > 20)
+                {
 
+                    char *temp = copyLexeme(tb, size6);
+                    printf("Lexical error at line %d, lexeme %s is of length greater than 20\n", line_num, temp);
+                    isSyntaticallyCorrect= false;
+                    s = 0;
+                    c = readOneCharacter(tb);
+                    break;
+                }
+                char *lexeme7 = copyLexeme(tb, size6);
+                // printf("hereeeee in 56");
+                return make_token(line_num, lexeme7, RECORDID);
+                
+            }
+            break;
         case 50:
             error(tb, line_num);
             s = 0;

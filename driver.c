@@ -108,8 +108,11 @@ char *EnumToString(token_names nt)
     buffer[strlen(buffer) - 3] = '\0';
     // printf("%s\n", buffer);
 
-    if (nt == i)
+    if (nt == i){
+      fclose(fp);
       return buffer;
+    }
+      
     i++;
   }
 }
